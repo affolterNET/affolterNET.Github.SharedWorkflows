@@ -193,6 +193,6 @@ runs:
     - name: Check for open PR to main
       id: check-pr
       if: github.event_name == 'push'
-      uses: Mcafee123/affolterNET.Github.SharedWorkflows/actions/check-open-pr@main
+      uses: affolterNET/affolterNET.Github.SharedWorkflows/actions/check-open-pr@main
       with:
         github-token: ${{ github.token }}

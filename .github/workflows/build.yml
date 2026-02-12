@@ -143,14 +143,14 @@ jobs:
     steps:
 
       - name: Checkout code
-        uses: Mcafee123/affolterNET.Github.SharedWorkflows/actions/checkout@main
+        uses: affolterNET/affolterNET.Github.SharedWorkflows/actions/checkout@main
         with:
           fetch-depth: 0
 
       # Load configuration at the start of the job
       - name: Load configuration
         id: config
-        uses: Mcafee123/affolterNET.Github.SharedWorkflows/actions/load-config@main
+        uses: affolterNET/affolterNET.Github.SharedWorkflows/actions/load-config@main
         with:
           build-file: ${{ inputs.build-file }}
           deploy-file: ${{ inputs.deploy-file }}
@@ -187,7 +187,7 @@ jobs:
 
       - name: Version
         id: version
-        uses: Mcafee123/affolterNET.Github.SharedWorkflows/actions/version@main
+        uses: affolterNET/affolterNET.Github.SharedWorkflows/actions/version@main
         with:
           project_file: ${{ steps.config.outputs.backend-root }}/${{ steps.config.outputs.backend-folder }}/${{ steps.config.outputs.backend-project-file}}
           action: ${{ inputs.update-version == true && 'update' || 'read' }}
@@ -195,14 +195,14 @@ jobs:
 
       - name: Build Frontend
         if: steps.config.outputs.build-frontend == 'true'
-        uses: Mcafee123/affolterNET.Github.SharedWorkflows/actions/build-frontend@main
+        uses: affolterNET/affolterNET.Github.SharedWorkflows/actions/build-frontend@main
         with:
           frontend-root: ${{ steps.config.outputs.frontend-root }}
           build-command: ${{ steps.config.outputs.frontend-build-command }}
           node-version: ${{ steps.config.outputs.node-version }}
 
       - name: Build Backend
-        uses: Mcafee123/affolterNET.Github.SharedWorkflows/actions/build-backend@main
+        uses: affolterNET/affolterNET.Github.SharedWorkflows/actions/build-backend@main
         with:
           version: ${{ steps.version.outputs.version }}
           project-root: ${{ steps.config.outputs.backend-root }}
@@ -216,7 +216,7 @@ jobs:
           acr-password: ${{ secrets.acr-password }}
 
       - name: Sync tfvars with deployment version
-        uses: Mcafee123/affolterNET.Github.SharedWorkflows/actions/tf-version@main
+        uses: affolterNET/affolterNET.Github.SharedWorkflows/actions/tf-version@main
         if: ${{ steps.config.outputs.tfvars-files != '' }}
         with:
           version: ${{ steps.version.outputs.version }}

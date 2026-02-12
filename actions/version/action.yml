@@ -32,7 +32,7 @@ runs:
   steps:
 
   - name: Get version scripts
-    uses: Mcafee123/affolterNET.Github.SharedWorkflows/actions/get-scripts@main
+    uses: affolterNET/affolterNET.Github.SharedWorkflows/actions/get-scripts@main
     with:
       scripts: "scripts/ci_version.sh scripts/ci_utils.sh"
       scripts-version: ${{ inputs.scripts-version }}

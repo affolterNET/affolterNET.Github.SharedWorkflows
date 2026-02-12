@@ -48,7 +48,7 @@ runs:
       done
 
   - name: Download required scripts
-    uses: Mcafee123/affolterNET.Github.SharedWorkflows/actions/get-scripts@main
+    uses: affolterNET/affolterNET.Github.SharedWorkflows/actions/get-scripts@main
     with:
       scripts: "scripts/ci_tf.sh scripts/ci_utils.sh"
       scripts-version: ${{ inputs.scripts-version }}

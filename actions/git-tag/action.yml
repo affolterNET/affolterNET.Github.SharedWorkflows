@@ -41,10 +41,10 @@ runs:
   steps:
 
   - name: Checkout code
-    uses: Mcafee123/affolterNET.Github.SharedWorkflows/actions/checkout@main
+    uses: affolterNET/affolterNET.Github.SharedWorkflows/actions/checkout@main
     
   - name: Get version scripts
-    uses: Mcafee123/affolterNET.Github.SharedWorkflows/actions/get-scripts@main
+    uses: affolterNET/affolterNET.Github.SharedWorkflows/actions/get-scripts@main
     with:
       scripts: "scripts/ci_tag.sh"
       scripts-version: ${{ inputs.scripts-version }}

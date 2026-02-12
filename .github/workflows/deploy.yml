@@ -59,12 +59,12 @@ jobs:
     steps:
     - name: Checkout code (only if no tag provided)
       if: inputs.tag == ''
-      uses: Mcafee123/affolterNET.Github.SharedWorkflows/actions/checkout@main
+      uses: affolterNET/affolterNET.Github.SharedWorkflows/actions/checkout@main
 
     - name: Load configuration (only if no tag provided)
       if: inputs.tag == ''
       id: config
-      uses: Mcafee123/affolterNET.Github.SharedWorkflows/actions/load-config@main
+      uses: affolterNET/affolterNET.Github.SharedWorkflows/actions/load-config@main
       with:
         build-file: ${{ inputs.build-file }}
         deploy-file: ${{ inputs.deploy-file }}
@@ -72,7 +72,7 @@ jobs:
     - name: Read version from action (only if no tag provided)
       if: inputs.tag == ''
       id: get-version
-      uses: Mcafee123/affolterNET.Github.SharedWorkflows/actions/version@main
+      uses: affolterNET/affolterNET.Github.SharedWorkflows/actions/version@main
       with:
         project_file: ${{ steps.config.outputs.backend-root }}/${{ steps.config.outputs.backend-folder }}/${{ steps.config.outputs.backend-project-file}}
         action: read
@@ -119,14 +119,14 @@ jobs:
     steps:
 
     - name: Checkout code
-      uses: Mcafee123/affolterNET.Github.SharedWorkflows/actions/checkout@main
+      uses: affolterNET/affolterNET.Github.SharedWorkflows/actions/checkout@main
       with:
         ref: ${{ needs.prepare.outputs.tag }}
 
     # Load configuration
     - name: Load configuration
       id: config
-      uses: Mcafee123/affolterNET.Github.SharedWorkflows/actions/load-config@main
+      uses: affolterNET/affolterNET.Github.SharedWorkflows/actions/load-config@main
       with:
         build-file: ${{ inputs.build-file }}
         deploy-file: ${{ inputs.deploy-file }}
@@ -239,14 +239,14 @@ jobs:
     steps:
 
     - name: Checkout code
-      uses: Mcafee123/affolterNET.Github.SharedWorkflows/actions/checkout@main
+      uses: affolterNET/affolterNET.Github.SharedWorkflows/actions/checkout@main
       with:
         ref: ${{ needs.prepare.outputs.tag }}
 
     # Load configuration
     - name: Load configuration
       id: config
-      uses: Mcafee123/affolterNET.Github.SharedWorkflows/actions/load-config@main
+      uses: affolterNET/affolterNET.Github.SharedWorkflows/actions/load-config@main
       with:
         build-file: ${{ inputs.build-file }}
         deploy-file: ${{ inputs.deploy-file }}
