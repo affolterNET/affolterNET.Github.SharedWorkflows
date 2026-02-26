@@ -239,12 +239,16 @@ jobs:
         echo "- **Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
         echo "- **Workflow:** ${{ github.workflow }}" >> $GITHUB_STEP_SUMMARY
 
+    - name: Get CI utils
+      if: always()
+      uses: affolterNET/affolterNET.Github.SharedWorkflows/actions/get-scripts@main
+      with:
+        scripts: "scripts/ci_utils.sh"
+
     - name: Commit trivy scan reports
       if: always()
       continue-on-error: true
       working-directory: ${{ steps.config.outputs.tf-module-path }}
-      env:
-        TARGET_BRANCH: ${{ github.ref_name }}
       run: |
         if [ ! -d ".trivy_scans" ] || [ -z "$(git status .trivy_scans/ --porcelain 2>/dev/null)" ]; then
           echo "No trivy scan changes to commit"
@@ -256,31 +260,6 @@ jobs:
         git add .trivy_scans/
         git commit -m "chore: update trivy scan reports"
 
-        # Push with fetch+rebase retry (matches ci_utils.sh pattern)
-        max_attempts=5
-        attempt=1
-        delay=2
-        while [ $attempt -le $max_attempts ]; do
-          echo "Attempt $attempt/$max_attempts: pushing to $TARGET_BRANCH..."
-          if git push origin HEAD:"$TARGET_BRANCH" 2>&1; then
-            echo "Push succeeded"
-            exit 0
-          fi
-          if [ $attempt -ge $max_attempts ]; then
-            echo "Failed to push after $max_attempts attempts"
-            exit 1
-          fi
-          echo "Push failed, fetching and rebasing..."
-          sleep $delay
-          git fetch origin "$TARGET_BRANCH" || true
-          remote_head=$(git rev-parse "origin/$TARGET_BRANCH" 2>/dev/null || echo "")
-          if [ -n "$remote_head" ] && [ "$(git rev-parse HEAD)" != "$remote_head" ]; then
-            if ! git rebase "origin/$TARGET_BRANCH"; then
-              git rebase --abort 2>/dev/null || true
-              git merge "origin/$TARGET_BRANCH" --no-edit || git merge --abort 2>/dev/null || true
-            fi
-          fi
-          delay=$((delay + 1))
-          attempt=$((attempt + 1))
-        done
+        source "$GITHUB_WORKSPACE/scripts/ci_utils.sh"
+        push_with_retry
 
