@@ -157,7 +157,7 @@ jobs:
         echo "    - acr-password: $([ -n '${{ secrets.acr-password }}' ] && echo 'Yes' || echo 'No')"
 
     - name: Install Trivy
-      uses: aquasecurity/setup-trivy@v0.2.4
+      uses: aquasecurity/setup-trivy@v0.2.5
 
     - name: Docker Login to ACR
       uses: docker/login-action@v3
