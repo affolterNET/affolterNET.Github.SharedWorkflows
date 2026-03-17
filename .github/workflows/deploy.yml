@@ -166,25 +166,25 @@ jobs:
         trivy --version
 
     - name: Docker Login to ACR
-      uses: docker/login-action@v3
+      uses: docker/login-action@v4
       with:
         registry: ${{ steps.config.outputs.registry-name }}
         username: ${{ secrets.acr-username }}
         password: ${{ secrets.acr-password }}
 
     - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v2
+      uses: hashicorp/setup-terraform@v3
       with:
         terraform_version: '1.7.5'
         terraform_wrapper: false  # Needed to properly capture outputs
 
     - name: Azure Login
-      uses: azure/login@v1
+      uses: azure/login@v2
       with:
         creds: ${{ secrets.azure-credentials }}
 
     - name: Setup SSH key for private repositories
-      uses: webfactory/ssh-agent@v0.9.0
+      uses: webfactory/ssh-agent@v0.10.0
       with:
         ssh-private-key: ${{ secrets.ssh-private-key }}
 

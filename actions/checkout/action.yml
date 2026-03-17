@@ -30,7 +30,7 @@ runs:
 
     - name: Checkout code
       if: steps.check_status.outputs.already_checked_out == 'false'
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
       with:
         fetch-depth: ${{ inputs.fetch-depth }}
         ref: ${{ inputs.ref != '' && inputs.ref || (github.head_ref || github.ref_name) }}
