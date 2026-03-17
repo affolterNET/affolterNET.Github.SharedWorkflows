@@ -173,13 +173,13 @@ jobs:
         password: ${{ secrets.acr-password }}
 
     - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v3
+      uses: hashicorp/setup-terraform@v4
       with:
         terraform_version: '1.7.5'
         terraform_wrapper: false  # Needed to properly capture outputs
 
     - name: Azure Login
-      uses: azure/login@v2
+      uses: azure/login@v3
       with:
         creds: ${{ secrets.azure-credentials }}
 
