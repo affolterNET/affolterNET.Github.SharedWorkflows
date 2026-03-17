@@ -73,9 +73,6 @@ on:
       image-name:
         description: 'The Docker image name from configuration'
         value: ${{ jobs.build.outputs.image-name }}
-      registry-name:
-        description: 'The container registry name from configuration'
-        value: ${{ jobs.build.outputs.registry-name }}
       dockerfile:
         description: 'Dockerfile path'
         value: ${{ jobs.build.outputs.dockerfile }}
@@ -126,7 +123,6 @@ jobs:
       
       # Docker outputs
       image-name: ${{ steps.config.outputs.image-name }}
-      registry-name: ${{ steps.config.outputs.registry-name }}
       dockerfile: ${{ steps.config.outputs.dockerfile }}
       
       # Terraform outputs
