@@ -162,12 +162,16 @@ jobs:
         echo "    - acr-password: $([ -n '${{ secrets.acr-password }}' ] && echo 'Yes' || echo 'No')"
 
     - name: Install Trivy
+      env:
+        # Pin to v0.69.3 — last known safe release before supply chain attack (GHSA-69fq-xp46-6x23)
+        # Install from immutable GitHub release, NOT from apt repo (compromised in v0.69.4)
+        TRIVY_VERSION: "0.69.3"
       run: |
-        sudo apt-get install -y wget apt-transport-https gnupg
-        wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | gpg --dearmor | sudo tee /usr/share/keyrings/trivy.gpg > /dev/null
-        echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb generic main" | sudo tee /etc/apt/sources.list.d/trivy.list
-        sudo apt-get update
-        sudo apt-get install -y trivy=0.69.3-1
+        wget -q "https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VERSION}/trivy_${TRIVY_VERSION}_Linux-64bit.deb"
+        wget -q "https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VERSION}/trivy_${TRIVY_VERSION}_checksums.txt"
+        sha256sum --check --ignore-missing "trivy_${TRIVY_VERSION}_checksums.txt"
+        sudo dpkg -i "trivy_${TRIVY_VERSION}_Linux-64bit.deb"
+        rm -f "trivy_${TRIVY_VERSION}_Linux-64bit.deb" "trivy_${TRIVY_VERSION}_checksums.txt"
         trivy --version
 
     - name: Cache Trivy DB
