@@ -19,7 +19,7 @@ on:
         description: "Terraform CLI version required by the calling project's configuration"
         required: false
         type: string
-        default: "1.16.5"
+        default: "1.15.6"
       tag:
         description: "Tag to deploy (if not provided, will read version and generate tag)"
         required: false
