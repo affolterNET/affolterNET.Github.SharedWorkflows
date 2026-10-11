@@ -15,6 +15,11 @@ on:
         type: string
 
       # Deploy options
+      terraform-version:
+        description: "Terraform CLI version required by the calling project's configuration"
+        required: false
+        type: string
+        default: "1.7.5"
       tag:
         description: "Tag to deploy (if not provided, will read version and generate tag)"
         required: false
@@ -242,7 +247,7 @@ jobs:
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v4
       with:
-        terraform_version: '1.7.5'
+        terraform_version: ${{ inputs.terraform-version }}
         terraform_wrapper: false  # Needed to properly capture outputs
 
     - name: Azure Login
@@ -370,4 +375,3 @@ jobs:
 
         source "$GITHUB_WORKSPACE/scripts/ci_utils.sh"
         push_with_retry
-
